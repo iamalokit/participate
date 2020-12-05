@@ -40,7 +40,6 @@ CREATE TABLE `event_category` (
   `level` int(1) DEFAULT NULL,
   `sort` int(11) DEFAULT NULL,
   `icon` varchar(255) DEFAULT NULL,
-  `keywords` varchar(255) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
@@ -81,6 +80,33 @@ CREATE TABLE `event_location` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
-
+select * from event_category;
 select * from event;
 select * from event_location;
+
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE `admin` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) DEFAULT NULL,
+  `password` varchar(64) DEFAULT NULL,
+  `icon` varchar(500) DEFAULT NULL ,
+  `email` varchar(100) DEFAULT NULL ,
+  `nick_name` varchar(200) DEFAULT NULL ,
+  `note` varchar(500) DEFAULT NULL ,
+  `create_time` datetime DEFAULT NULL ,
+  `login_time` datetime DEFAULT NULL ,
+  `status` int(1) DEFAULT '1' ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `admin_role`;
+CREATE TABLE `admin_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `admin_count` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `status` int(1) DEFAULT '1',
+  `sort` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;

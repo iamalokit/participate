@@ -29,6 +29,7 @@
 		<mybatis-generator.version>1.4.0</mybatis-generator.version>
 		<mybatis.version>3.5.5</mybatis.version>
 		<minio.version>7.1.0</minio.version>
+		<jjwt.version>0.9.0</jjwt.version>
 		<participate-core.version>1.0.0-SNAPSHOT</participate-core.version>
 		<participate-generator.version>1.0.0-SNAPSHOT</participate-generator.version>
 	</properties>
@@ -69,6 +70,11 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
 		</dependencies>
 	</dependencyManagement>
