@@ -9,6 +9,7 @@ import com.alokit.participate.dto.RequestAdminRegister;
 import com.alokit.participate.dto.RequestUpdateAdminPassword;
 import com.alokit.participate.model.Admin;
 import com.alokit.participate.model.AdminRole;
+import com.alokit.participate.model.Resource;
 
 public interface AdminService {
 	
@@ -34,7 +35,7 @@ public interface AdminService {
 	List<AdminRole> getRoleList(Long adminId);
 	
 	
-//	List<UmsResource> getResourceList(Long adminId);
+	List<Resource> getResourceList(Long adminId);
 	
 	int updatePassword(RequestUpdateAdminPassword requestUpdateAdminPassword);
 	

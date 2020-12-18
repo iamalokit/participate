@@ -9,4 +9,12 @@ minio:
   bucketName: participate
   accessKey: minioadmin
   secretKey: minioadmin
+  
+redis:
+  database: participate
+  key:
+    admin: 'admin'
+    resourceList: 'resourceList'
+  expire:
+    common: 86400
     
