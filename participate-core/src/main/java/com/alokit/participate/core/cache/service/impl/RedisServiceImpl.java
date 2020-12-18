@@ -3,6 +3,7 @@ package com.alokit.participate.core.cache.service.impl;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -13,14 +14,13 @@ public class RedisServiceImpl implements RedisService {
 	private RedisTemplate<String, Object> redisTemplate;
 	@Override
 	public void set(String key, Object value, long time) {
-		// TODO Auto-generated method stub
+		redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
 		
 	}
 
 	@Override
 	public void set(String key, Object value) {
-		// TODO Auto-generated method stub
-		
+		redisTemplate.opsForValue().set(key, value);		
 	}
 
 	@Override
@@ -31,8 +31,7 @@ public class RedisServiceImpl implements RedisService {
 
 	@Override
 	public Boolean del(String key) {
-		// TODO Auto-generated method stub
-		return null;
+		return redisTemplate.delete(key);
 	}
 
 	@Override
