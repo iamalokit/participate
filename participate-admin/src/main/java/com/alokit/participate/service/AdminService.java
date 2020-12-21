@@ -11,6 +11,7 @@ import com.alokit.participate.model.Admin;
 import com.alokit.participate.model.AdminRole;
 import com.alokit.participate.model.Resource;
 
+
 public interface AdminService {
 	
 	Admin getAdminByUsername(String username);

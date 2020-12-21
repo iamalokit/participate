@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -40,6 +41,7 @@ import com.alokit.participate.service.AdminCacheService;
 import com.alokit.participate.service.AdminService;
 import com.github.pagehelper.PageHelper;
 
+@Service
 public class AdminServiceImpl implements AdminService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AdminService.class);
