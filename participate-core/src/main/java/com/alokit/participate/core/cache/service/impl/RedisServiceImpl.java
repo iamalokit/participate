@@ -6,9 +6,12 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 
 import com.alokit.participate.core.cache.service.RedisService;
 
+
+@Service
 public class RedisServiceImpl implements RedisService {
 	
 	private RedisTemplate<String, Object> redisTemplate;

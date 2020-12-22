@@ -16,8 +16,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtTokenUtil {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class); 
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
 	private static final String CLAIM_KEY_USERNAME = "sub";
 	private static final String CLAIM_KEY_CREATED = "created";
 	@Value("${jwt.secret}")
@@ -35,35 +35,35 @@ public class JwtTokenUtil {
 	private Date generateExpirationDate() {
 		return new Date(System.currentTimeMillis() + expiration * 1000);
 	}
-	
+
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
 		claims.put(CLAIM_KEY_CREATED, new Date());
 		return generateToken(claims);
 	}
-	
+
 	public String refreshHeadToken(String oldToken) {
-		if("".equals(oldToken)) {
+		if ("".equals(oldToken)) {
 			return null;
 		}
-		
+
 		String token = oldToken.substring(tokenHead.length());
-		
-		if("".equals(token)) {
+
+		if ("".equals(token)) {
 			return null;
 		}
-		
+
 		Claims claims = getClaimsFromToken(token);
-		if(claims == null) {
+		if (claims == null) {
 			return null;
 		}
-		
-		if(isTokenExpired(token)) {
+
+		if (isTokenExpired(token)) {
 			return null;
 		}
-		
-		if(tokenRefreshJustBefore(token, 30 * 60)) {
+
+		if (tokenRefreshJustBefore(token, 30 * 60)) {
 			return token;
 		} else {
 			claims.put(CLAIM_KEY_CREATED, new Date());
@@ -75,11 +75,11 @@ public class JwtTokenUtil {
 		Claims claims = getClaimsFromToken(token);
 		Date createDate = claims.get(CLAIM_KEY_CREATED, Date.class);
 		Date refreshDate = new Date();
-		
-		if(refreshDate.after(createDate) && refreshDate.before(DateUtil.offsetSecond(createDate, time))) {
+
+		if (refreshDate.after(createDate) && refreshDate.before(DateUtil.offsetSecond(createDate, time))) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -96,14 +96,27 @@ public class JwtTokenUtil {
 	private Claims getClaimsFromToken(String token) {
 		Claims claims = null;
 		try {
-			claims = Jwts.parser()
-					.setSigningKey(secret)
-					.parseClaimsJws(token)
-					.getBody();
+			claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
 		} catch (Exception e) {
-			LOGGER.info("Cannot get claims from the token" , token);
+			LOGGER.info("Cannot get claims from the token", token);
 		}
-		
+
 		return claims;
+	}
+
+	public String getUserNameFromToken(String token) {
+		String username;
+		try {
+			Claims claims = getClaimsFromToken(token);
+			username = claims.getSubject();
+		} catch (Exception e) {
+			username = null;
+		}
+		return username;
+	}
+
+	public boolean validateToken(String authToken, UserDetails userDetails) {
+		String username = getUserNameFromToken(authToken);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(authToken);
 	}
 }
