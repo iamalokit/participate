@@ -23,4 +23,11 @@ jwt:
   secret: participate-admin-secret
   expiration: 604800
   tokenHead: 'Bearer '
-   
+  
+secure:
+  ignored:
+    urls:
+      - /admin/login
+      - /admin/register
+      - /admin/info
+      - /admin/logout
