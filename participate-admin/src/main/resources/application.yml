@@ -31,3 +31,8 @@ secure:
       - /admin/register
       - /admin/info
       - /admin/logout
+      
+mybatis:
+  mapper-locations:
+  - classpath:dao/*.xml
+  - classpath*:com/**/mapper/*.xml
