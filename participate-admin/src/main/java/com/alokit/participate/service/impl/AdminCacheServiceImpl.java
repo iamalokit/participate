@@ -1,16 +1,20 @@
 package com.alokit.participate.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.alokit.participate.core.cache.service.RedisService;
+import com.alokit.participate.dao.AdminRoleRelationDao;
 import com.alokit.participate.model.Admin;
 import com.alokit.participate.model.Resource;
 import com.alokit.participate.service.AdminCacheService;
 import com.alokit.participate.service.AdminService;
 
+@Service
 public class AdminCacheServiceImpl implements AdminCacheService {
 
 	@Autowired
@@ -18,6 +22,9 @@ public class AdminCacheServiceImpl implements AdminCacheService {
 
 	@Autowired
 	private RedisService redisService;
+	
+	@Autowired
+	private AdminRoleRelationDao adminRoleRelationDao;
 
 	@Value("${redis.database}")
 	private String REDIS_DATABASE;
@@ -52,7 +59,12 @@ public class AdminCacheServiceImpl implements AdminCacheService {
 
 	@Override
 	public void delResourceListByResource(Long resourceId) {
-		// TODO Auto-generated method stub
+		List<Long> adminIdList = adminRoleRelationDao.getAdminIdList(resourceId);
+		if(adminIdList != null && !adminIdList.isEmpty()) {
+			String keyPrefix = REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":";
+			List<String> keys = adminIdList.stream().map(adminId -> keyPrefix + adminId).collect(Collectors.toList());
+			redisService.del(keys);
+		}
 
 	}
 

@@ -17,4 +17,10 @@ redis:
     resourceList: 'resourceList'
   expire:
     common: 86400
-    
+
+jwt:
+  tokenHeader: Authorization
+  secret: participate-admin-secret
+  expiration: 604800
+  tokenHead: 'Bearer '
+   
