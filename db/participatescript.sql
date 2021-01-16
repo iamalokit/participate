@@ -137,7 +137,16 @@ CREATE TABLE `resource` (
   `create_time` datetime DEFAULT NULL,
   `name` varchar(200) DEFAULT NULL,
   `url` varchar(200) DEFAULT NULL,
-  `description` varchar(500) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,	
   `category_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ums_role_resource_relation`;
+CREATE TABLE `role_resource_relation` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `role_id` bigint(20) DEFAULT NULL,
+  `resource_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8;

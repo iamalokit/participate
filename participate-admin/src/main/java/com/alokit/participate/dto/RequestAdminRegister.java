@@ -4,7 +4,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 public class RequestAdminRegister {
-	@NotEmpty
+	
+	@NotEmpty(message = "Username cannot be empty")
 	private String username;
 	
 	@NotEmpty

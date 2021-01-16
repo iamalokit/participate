@@ -6,13 +6,14 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alokit.participate.dto.RequestCreateEvent;
+import com.alokit.participate.dto.CreateEvent;
+import com.alokit.participate.dto.EventQueryParams;
 import com.alokit.participate.model.Event;
 
 
 public interface EventService {
 	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
-	int create(RequestCreateEvent requestCreateEvent);	
+	int create(CreateEvent createEventParams);	
 	
 	Event getEvent(Long id);
 
@@ -35,4 +36,6 @@ public interface EventService {
     int updateDeleteStatus(List<Long> ids, Integer deleteStatus);
 
     List<Event> list(String keyword);
+    
+    List<Event> list(EventQueryParams eventQueryParams, Integer pageSize, Integer pageNum);
 }

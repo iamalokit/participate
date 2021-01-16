@@ -1,5 +1,7 @@
 package com.alokit.participate.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alokit.participate.core.response.ApiPage;
 import com.alokit.participate.core.response.ApiResponse;
-import com.alokit.participate.dto.RequestCreateEvent;
+import com.alokit.participate.dto.CreateEvent;
+import com.alokit.participate.dto.EventQueryParams;
 import com.alokit.participate.model.Event;
 import com.alokit.participate.service.EventService;
 
@@ -24,6 +29,15 @@ public class EventController {
 	@Autowired
 	private EventService eventService;
 	
+	
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public ApiResponse<ApiPage<Event>> getList(EventQueryParams eventQueryParams,
+                                                        @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<Event> eventList = eventService.list(eventQueryParams, pageSize, pageNum);
+        return ApiResponse.success(ApiPage.restPage(eventList));
+    }
 	/**
 	 * 
 	 * @param requestCreateEvent
@@ -31,51 +45,13 @@ public class EventController {
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
-	public ApiResponse<Integer> create(@Validated @RequestBody RequestCreateEvent requestCreateEvent) {
-		int count = eventService.create(requestCreateEvent);
+	public ApiResponse<Integer> create(@Validated @RequestBody CreateEvent createEventParams) {
+		int count = eventService.create(createEventParams);
 		if (count > 0) {
 			return ApiResponse.success(count);
 		} else {
 			return ApiResponse.failed();
 		}
-//		Event event = new Event();
-//		try {
-//			event.setEventName(requestCreateEvent.getEventName());
-//			event.setEventType(requestCreateEvent.getEventType());
-//			event.setEventCategoryId(requestCreateEvent.getEventCategoryId());
-//			event.setEventDescription(requestCreateEvent.getEventDescription());
-//			Map<String, List<TimeSlot>> eventDate = requestCreateEvent.getEventDate();
-//			if (Validations.isValidEventDate(eventDate)) {
-//				ObjectMapper mapperObj = new ObjectMapper();
-//				String strEventDates = mapperObj.writeValueAsString(eventDate);
-//				event.setEventDate(strEventDates);
-//			}
-//			event.setEventCost(requestCreateEvent.getEventCost());
-//			event.setCreateTime(requestCreateEvent.getCreateTime());
-//			event.setCreatedBy(requestCreateEvent.getCreatedBy());
-//			RequestCreateEventLocation requestEventLocation = requestCreateEvent.getEventLocation();
-//			EventLocation eventLocation = eventLocationService
-//					.findByLocationName(requestEventLocation.getLocationName());
-//			if (eventLocation == null) {
-//				eventLocation = new EventLocation();
-//				eventLocation.setLocationName(requestEventLocation.getLocationName());
-//				eventLocation.setAddressLine1(requestEventLocation.getAddressLine1());
-//				eventLocation.setAddressLine2(requestEventLocation.getAddressLine2());
-//				eventLocation.setCity(requestEventLocation.getCity());
-//				eventLocation.setState(requestEventLocation.getState());
-//				eventLocation.setCountry(requestEventLocation.getCountry());
-//				eventLocation.setZipCode(requestEventLocation.getZipCode());
-//				eventLocation.setCreatedBy(requestCreateEvent.getCreatedBy());
-//				eventLocation.setCreateTime(requestCreateEvent.getCreateTime());
-//				eventLocationService.save(eventLocation);
-//			}
-//			event.setEventLocationId(eventLocation.getId());
-//			eventService.save(event);
-//		} catch (Exception e) {
-//			LOGGER.error("Exception occurred while creating an event", e);
-//			return ApiResponse.failed("Exception occurred while creating an event");
-//		}
-//		return ApiResponse.success(event.getId());
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
